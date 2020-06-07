@@ -82,7 +82,7 @@ public class AccountDetailaServiceTest {
 	@Test
 	public void testAccountsException() {
 		Exception exception = assertThrows(AccountDetailsException.class,()->{
-			accServiceImplMock.getAllAccounts("user1");
+			accServiceImplMock.getAllAccounts("user2");
 		});
 		String expectMessage = "No Accounts for this user";
 		String actualMessage = exception.getMessage();

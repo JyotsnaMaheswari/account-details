@@ -44,11 +44,6 @@ public class AccountDetailaServiceTest {
 	private List<Account> accountsMockList = null;
 	private List<Transaction> transactionsMockList = null;
 	
-	@Before
-	public void init() {
-		MockitoAnnotations.initMocks(this);
-	}
-	
 	@Test
 	public void getAllAccountsTest() throws AccountDetailsException {
 		Account account = new Account();
@@ -63,7 +58,7 @@ public class AccountDetailaServiceTest {
 		accountsMockList.add(account);
 		when(accountRepo.findByUserId("user1")).thenReturn((List<Account>) accountsMockList);
 		List<AccountDTO> accountsList = accServiceImplMock.getAllAccounts("user1");
-		assertEquals(1,accountsList.size());
+		assertEquals(accountsMockList.size(),accountsList.size());
 	}
 	
 	@Test
@@ -81,7 +76,7 @@ public class AccountDetailaServiceTest {
 		transactionsMockList.add(transaction);
 		when(transactionRepo.findByAccountNumber(585309)).thenReturn((List<Transaction>) transactionsMockList);
 		List<TransactionDTO> transactionList = accServiceImplMock.getAllTransactions(585309);
-		assertEquals(1,transactionList.size());
+		assertEquals(transactionsMockList.size(),transactionList.size());
 	}
 	
 	@Test

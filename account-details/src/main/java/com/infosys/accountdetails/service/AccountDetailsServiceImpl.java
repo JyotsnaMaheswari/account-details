@@ -23,28 +23,59 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
 	@Autowired
 	private TransactionRepository transactionRepo;
 	
+	Validator validator = new Validator();
+	
+	//To fetch all accounts by giving userId
 	public List<AccountDTO> getAllAccounts(String userId) throws AccountDetailsException {
 		List<Account> accountEntityList = new ArrayList<>();
 		List<AccountDTO> accountDtoList = new ArrayList<>();
-		accountEntityList = accountRepo.findByUserId(userId);
-		if(accountEntityList.isEmpty()) {
-			throw new AccountDetailsException("No Accounts for this user");
+		if(validator.validateUserId(userId)) {
+			accountEntityList = accountRepo.findByUserId(userId);
+			if(accountEntityList.isEmpty()) {
+				throw new AccountDetailsException("No Accounts for this user");
+			}
+			for(Account accountEntity : accountEntityList) {
+				AccountDTO accDTO = new AccountDTO();
+				accDTO.setUserId(accountEntity.getUserId());
+				accDTO.setAccountNumber(accountEntity.getAccountNumber());
+				accDTO.setAccountName(accountEntity.getAccountName());
+				accDTO.setAccountType(accountEntity.getAccountType());
+				accDTO.setBalance(accountEntity.getBalance());
+				accDTO.setBalanceDate(accountEntity.getBalanceDate());
+				accDTO.setCurrency(accountEntity.getCurrency());
+				accountDtoList.add(accDTO);
+			}
 		}
-		for(Account accountEntity : accountEntityList) {
-			accountDtoList.add(AccountDTO.prepareEntityToDTO(accountEntity));
+		else {
+			throw new AccountDetailsException("Invalid userId");
 		}
 		return accountDtoList;
 	}
 	
-	public List<TransactionDTO> getAllTransactions(int accNumber) throws AccountDetailsException {
+	//To fetch all transactions by giving account number
+	public List<TransactionDTO> getAllTransactions(int accountNumber) throws AccountDetailsException {
 		List<Transaction> transactionEntityList = new ArrayList<>();
 		List<TransactionDTO> transactionDtoList = new ArrayList<>();
-		transactionEntityList = transactionRepo.findByAccountNumber(accNumber);
-		if(transactionEntityList.isEmpty()) {
-			throw new AccountDetailsException("No Transactions for this account");
+		if(validator.validateAccountNumber(accountNumber)) {
+			transactionEntityList = transactionRepo.findByAccountNumber(accountNumber);
+			if(transactionEntityList.isEmpty()) {
+				throw new AccountDetailsException("No Transactions for this account");
+			}
+			for(Transaction transEntity : transactionEntityList) {
+				TransactionDTO dto = new TransactionDTO();
+				dto.setAccountNumber(transEntity.getAccountNumber());
+				dto.setAccountName(transEntity.getAccountName());
+				dto.setCreditAmount(transEntity.getCreditAmount());
+				dto.setCurrency(transEntity.getCurrency());
+				dto.setDebitAmount(transEntity.getDebitAmount());
+				dto.setDescription(transEntity.getDescription());
+				dto.setTransactionDate(transEntity.getTransactionDate());
+				dto.setTransactionType(transEntity.getTransactionType());
+				transactionDtoList.add(dto);
+			}
 		}
-		for(Transaction transactionEntity : transactionEntityList) {
-			transactionDtoList.add(TransactionDTO.prepareEntityToDTO(transactionEntity));
+		else {
+			throw new AccountDetailsException("Invalid account number");
 		}
 		return transactionDtoList;
 	}

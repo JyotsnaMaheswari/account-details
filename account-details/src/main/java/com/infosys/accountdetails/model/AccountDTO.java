@@ -58,16 +58,4 @@ public class AccountDTO {
 	public void setBalance(Double balance) {
 		this.balance = balance;
 	}
-	
-	static public AccountDTO prepareEntityToDTO(Account accEntity) {
-		AccountDTO accDTO = new AccountDTO();
-		accDTO.setUserId(accEntity.getUserId());
-		accDTO.setAccountNumber(accEntity.getAccountNumber());
-		accDTO.setAccountName(accEntity.getAccountName());
-		accDTO.setAccountType(accEntity.getAccountType());
-		accDTO.setBalance(accEntity.getBalance());
-		accDTO.setBalanceDate(accEntity.getBalanceDate());
-		accDTO.setCurrency(accEntity.getCurrency());
-		return accDTO;
-	}
 }

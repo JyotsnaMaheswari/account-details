@@ -62,17 +62,4 @@ public class TransactionDTO {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	static public TransactionDTO prepareEntityToDTO(Transaction entity) {
-		TransactionDTO dto = new TransactionDTO();
-		dto.setAccountNumber(entity.getAccountNumber());
-		dto.setAccountName(entity.getAccountName());
-		dto.setCreditAmount(entity.getCreditAmount());
-		dto.setCurrency(entity.getCurrency());
-		dto.setDebitAmount(entity.getDebitAmount());
-		dto.setDescription(entity.getDescription());
-		dto.setTransactionDate(entity.getTransactionDate());
-		dto.setTransactionType(entity.getTransactionType());
-		return dto;
-	}
 }
